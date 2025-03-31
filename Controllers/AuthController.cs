@@ -57,7 +57,7 @@ public class AuthController : ControllerBase
         if (await _context.Users.AnyAsync(u => u.Email == register.Email))
             return BadRequest("Пользователь с таким Email уже существует");
 
-        if (new string[] { "Parent", "Child" }.Contains(register.Role))
+        if (!new string[] { "Parent", "Child" }.Contains(register.Role))
             return BadRequest("Можно зарегистрировать только родителя и ребенка");
 
         var user = new User
