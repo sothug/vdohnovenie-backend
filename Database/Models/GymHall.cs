@@ -15,6 +15,10 @@ public class GymHall : IValidatableObject, IEntity
     [StringLength(200, ErrorMessage = "Описание не более 200 символов")]
     public string Description { get; set; }
 
+    [Required(ErrorMessage = "Адрес обязательно")]
+    [StringLength(100, ErrorMessage = "Адрес не более 100 символов")]
+    public string Address { get; set; }
+
     [Range(1, int.MaxValue, ErrorMessage = "Вместимость должна быть положительной")]
     public int Capacity { get; set; }
 

@@ -22,7 +22,7 @@ public class GalleryItem : IValidatableObject, IEntity
     [Required(ErrorMessage = "Автор обязателен")]
     [ForeignKey("Author")]
     public int AuthorId { get; set; }
-    public virtual User Author { get; set; }
+    public virtual User? Author { get; set; }
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {

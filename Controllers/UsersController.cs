@@ -11,14 +11,22 @@ namespace backend.Controllers;
 
 [Route("api/users")]
 [ApiController]
-[Authorize(Policy = "Authenticated")]
+// [Authorize(Policy = "Authenticated")]
+// [Authorize()]
 public class UsersController : GenericController<User, UserFilter>
 {
     public UsersController(IRepository<User> repository, SportClubContext context) : base(repository, context) { }
 
     [HttpGet]
+    // [Authorize(Policy = null)]
+    [AllowAnonymous]
     public override async Task<IActionResult> GetAll([FromQuery] UserFilter filter, [FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 10)
     {
+        // var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+        // var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+        if (!User.Identity.IsAuthenticated && filter.Role != "Coach") 
+            return Unauthorized();
+        
         var query = _context.Users.AsQueryable();
         query = filter.Apply(query, User);
 
@@ -32,6 +40,7 @@ public class UsersController : GenericController<User, UserFilter>
     }
 
     [HttpGet("me")]
+    [Authorize(Policy = "Authenticated")]
     public async Task<IActionResult> GetCurrentUser()
     {
         var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);

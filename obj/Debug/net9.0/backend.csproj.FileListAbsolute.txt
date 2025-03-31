@@ -146,3 +146,4 @@ G:\Projects\SportClub\backend\bin\Debug\net9.0\System.Diagnostics.EventLog.dll
 G:\Projects\SportClub\backend\bin\Debug\net9.0\runtimes\win\lib\net9.0\System.Diagnostics.EventLog.dll
 G:\Projects\SportClub\backend\bin\Debug\net9.0\Castle.Core.dll
 G:\Projects\SportClub\backend\bin\Debug\net9.0\Microsoft.EntityFrameworkCore.Proxies.dll
+G:\Projects\SportClub\backend\obj\Debug\net9.0\backend.sourcelink.json

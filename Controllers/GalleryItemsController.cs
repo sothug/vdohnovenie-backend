@@ -17,6 +17,7 @@ public class GalleryItemsController : GenericController<GalleryItem, GalleryItem
     public GalleryItemsController(IRepository<GalleryItem> repository, SportClubContext context) : base(repository, context) { }
 
     [HttpGet]
+    [AllowAnonymous]
     public override async Task<IActionResult> GetAll([FromQuery] GalleryItemFilter filter, [FromQuery] int PageNumber = 1, [FromQuery] int PageSize = 10)
     {
         var query = _context.GalleryItems.AsQueryable();

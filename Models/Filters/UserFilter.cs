@@ -12,7 +12,7 @@ public class UserFilter : IFilter<User>
     public IQueryable<User> Apply(IQueryable<User> query, ClaimsPrincipal user)
     {
         var userRole = user.FindFirst(ClaimTypes.Role)?.Value;
-        var userId = int.Parse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value);
+        int.TryParse(user.FindFirst(ClaimTypes.NameIdentifier)?.Value, out int userId);
 
         if (userRole == "Parent")
             query = query.Where(u => u.Id == userId || u.ParentId == userId || u.Role == "Coach");

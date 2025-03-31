@@ -13,9 +13,9 @@ public class Review : IEntity, IValidatableObject
     public int? ScheduleId { get; set; } // Опционально, если отзыв о конкретном занятии
     public int? CoachId { get; set; }   // Опционально, если отзыв о тренере
 
-    public virtual User Author { get; set; }
-    public virtual Schedule Schedule { get; set; }
-    public virtual User Coach { get; set; }
+    public virtual User? Author { get; set; }
+    public virtual Schedule? Schedule { get; set; }
+    public virtual User? Coach { get; set; }
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {

@@ -20,6 +20,20 @@ public class Program
         var jwtSettings = builder.Configuration.GetSection("Jwt");
         var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
         
+        // Add CORS first
+        builder.Services.AddCors(options =>
+        {
+            options.AddPolicy("AllowFrontend",
+                policy =>
+                {
+                    policy.WithOrigins("http://localhost:8080")
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials()
+                        .SetIsOriginAllowed(origin => true); // Разрешаем все origins в режиме разработки
+                });
+        });
+
         // Add DB connection
         builder.Services.AddDbContext<SportClubContext>(options =>
             options.UseNpgsql(builder.Configuration.GetConnectionString("SportClub")).UseLazyLoadingProxies());
@@ -66,23 +80,6 @@ public class Program
             });
         });
         
-        // Add CORS
-        builder.Services.AddCors(options =>
-        {
-            options.AddPolicy("AllowFrontend",
-                policy =>
-                {
-                    policy.WithOrigins("http://localhost:8080")
-                        .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials();
-                    policy.WithOrigins("http://172.28.16.1:8080")
-                        .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials();
-                });
-        });
-        
         // Add authentication
         builder.Services.AddAuthentication(options =>
             {
@@ -126,7 +123,9 @@ public class Program
 
         app.UseHttpsRedirection();
 
+        // Use CORS before routing and authentication
         app.UseCors("AllowFrontend");
+        app.UseRouting();
         app.UseAuthentication();
         app.UseAuthorization();
         app.MapControllers();
